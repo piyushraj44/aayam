@@ -1,0 +1,50 @@
+/* Fixed, full-viewport layer for the WebGL canvas. Never intercepts input. */
+.host {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-stage);
+  pointer-events: none;
+  contain: strict;
+}
+
+.host canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Static fallbacks, rendered inside the anchors via portals ---- */
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/*
+ * The burst image covers 3.1× its anchor (burst.scale × spike reach), matching
+ * the live render, so it bleeds across the grid lines the same way.
+ */
+.fallbackBurst {
+  position: absolute;
+  inset: -105%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fallbackImg {
+  object-fit: contain;
+}
+
+/* The hand settles as faint atmosphere (≈15% opacity), top-aligned in its box. */
+.fallbackHand {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fallbackHand .fallbackImg {
+  object-position: top center;
+}

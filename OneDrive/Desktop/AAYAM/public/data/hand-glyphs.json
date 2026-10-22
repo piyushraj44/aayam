@@ -1,0 +1,94 @@
+{
+ "version": 1,
+ "cols": 150,
+ "rows": 88,
+ "count": 3212,
+ "aspect": 0.6003,
+ "fingertips": [
+  {
+   "name": "thumb",
+   "x": 12.0,
+   "y": 54.5
+  },
+  {
+   "name": "index",
+   "x": 51.0,
+   "y": 63.5
+  },
+  {
+   "name": "middle",
+   "x": 77.0,
+   "y": 60.5
+  },
+  {
+   "name": "ring",
+   "x": 94.5,
+   "y": 39.5
+  },
+  {
+   "name": "little",
+   "x": 132.5,
+   "y": 49.5
+  }
+ ],
+ "knuckleY": 39,
+ "contactFinger": "index",
+ "drips": [
+  {
+   "x": 15,
+   "y0": 82,
+   "y1": 86
+  },
+  {
+   "x": 51,
+   "y0": 64,
+   "y1": 75,
+   "finger": "index"
+  },
+  {
+   "x": 78,
+   "y0": 61,
+   "y1": 81,
+   "finger": "middle"
+  },
+  {
+   "x": 94,
+   "y0": 40,
+   "y1": 63,
+   "finger": "ring"
+  },
+  {
+   "x": 116,
+   "y0": 46,
+   "y1": 60
+  },
+  {
+   "x": 117,
+   "y0": 66,
+   "y1": 77
+  },
+  {
+   "x": 127,
+   "y0": 68,
+   "y1": 82
+  },
+  {
+   "x": 129,
+   "y0": 62,
+   "y1": 76
+  }
+ ],
+ "tints": {
+  "white": 2724,
+  "red": 226,
+  "blue": 262
+ },
+ "source": {
+  "image": "aayam-wordmark-reference.jpg",
+  "pitchX": 4.9441,
+  "pitchY": 8.2362,
+  "originX": 352.08,
+  "originY": 96.96
+ },
+ "ramp": " .:-=+*#%@"
+}

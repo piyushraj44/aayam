@@ -1,0 +1,31 @@
+{
+  "name": "aayam-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AAYAM — the annual technical fest of NIT Agartala",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "motion": "^14.3.0",
+    "next": "^15.5.28",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.28",
+    "gltfpack": "^1.3.0",
+    "typescript": "^5.9.3"
+  }
+}

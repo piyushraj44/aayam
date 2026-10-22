@@ -1,0 +1,141 @@
+/* Chrome link — outline + ghost variants */
+
+.link {
+  --cl-sweep: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(242, 244, 247, 0) 30%,
+    rgba(242, 244, 247, 0.55) 48%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(242, 244, 247, 0.55) 52%,
+    rgba(242, 244, 247, 0) 70%,
+    transparent 100%
+  );
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--chrome-white);
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.label {
+  position: relative;
+}
+
+.arrow {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.link:hover .arrow,
+.link:focus-visible .arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Outline ---------- */
+
+.outline {
+  padding: 0.85em 1.4em;
+  border: 1px solid var(--liquid-silver);
+  border-radius: 0;
+  overflow: hidden;
+  background-color: rgba(5, 6, 8, 0.35);
+}
+
+/* Chrome-white highlight sweep */
+.outline::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--cl-sweep);
+  transform: translateX(-110%);
+  pointer-events: none;
+}
+
+.outline:hover,
+.outline:focus-visible {
+  border-color: var(--chrome-white);
+  background-color: rgba(242, 244, 247, 0.06);
+}
+
+.outline:hover::before,
+.outline:focus-visible::before {
+  transform: translateX(110%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.outline:active {
+  background-color: rgba(242, 244, 247, 0.12);
+}
+
+/* ---------- Ghost ---------- */
+
+.ghost {
+  padding: 0.5em 0;
+  color: var(--liquid-silver);
+}
+
+.ghost .label::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35em;
+  height: 1px;
+  background: linear-gradient(90deg, var(--chrome-white), var(--liquid-silver));
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.ghost:hover,
+.ghost:focus-visible {
+  color: var(--chrome-white);
+}
+
+.ghost:hover .label::after,
+.ghost:focus-visible .label::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ---------- Reduced motion: colour change only ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .outline::before {
+    display: none;
+  }
+
+  .link:hover .arrow,
+  .link:focus-visible .arrow {
+    transform: none;
+  }
+
+  .ghost .label::after {
+    transform: scaleX(1);
+    opacity: 0.35;
+    transition: opacity var(--dur-fast) linear;
+  }
+
+  .ghost:hover .label::after,
+  .ghost:focus-visible .label::after {
+    opacity: 1;
+  }
+}

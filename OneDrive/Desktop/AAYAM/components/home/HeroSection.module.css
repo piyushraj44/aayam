@@ -1,0 +1,487 @@
+/* --------------------------------------------------------------------------
+   Section 01 — "The Touch" (pinned scene). Mobile-first.
+
+   Inputs (inline vars from HeroSection.tsx / HeroScene, sourced from
+   lib/touchScene.ts): --pin-desktop, --pin-mobile, --pour-start, --pour-end,
+   --hero-t (damped progress 0…1), --hero-intro-h (measured).
+   The 767/768px breakpoints below mirror TOUCH_MOBILE_MAX (CSS media queries
+   cannot read custom properties).
+   -------------------------------------------------------------------------- */
+
+.scene {
+  --hero-t: 0;
+  /* phase progress, derived from --hero-t */
+  --pour: clamp(0, calc((var(--hero-t) - var(--pour-start)) / (var(--pour-end) - var(--pour-start))), 1);
+  --settle: clamp(0, calc((var(--hero-t) - var(--pour-end)) / (1 - var(--pour-end))), 1);
+
+  position: relative;
+  height: var(--pin-mobile);
+  /* phones: description + CTA sit just below the pinned stage; reserve them */
+  margin-bottom: calc(var(--hero-intro-h, 240px) + 24px);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-content);
+  height: 100svh;
+  /* phones: orb ~48% of the height, wordmark band ~62–77% at ~90vw */
+  --orb: min(66vw, 30svh);
+  --wm-w: min(90vw, 16svh * var(--wm-aspect, 2.83));
+}
+
+.end {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 100svh;
+  pointer-events: none;
+}
+
+/* ---- anchors -------------------------------------------------------------- */
+
+.anchorFill {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.handSlot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+}
+
+.orbSlot {
+  position: absolute;
+  top: calc(48% - var(--orb) / 2);
+  left: calc(50% - var(--orb) / 2);
+  width: var(--orb);
+  height: var(--orb);
+}
+
+.wordmarkBox {
+  position: absolute;
+  top: 62%;
+  left: calc(50% - var(--wm-w) / 2);
+  width: var(--wm-w);
+  aspect-ratio: var(--wm-aspect, 2.83);
+}
+
+/* the empty "mould" of AAYAM — hairline texture + rim, ~8%, fades out in Pour */
+.mould {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(0.1 * (1 - var(--pour)));
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(242, 244, 247, 0.6) 0 1px,
+    transparent 1px 4px
+  );
+  -webkit-mask: var(--mould-fill) center / 100% 100% no-repeat;
+  mask: var(--mould-fill) center / 100% 100% no-repeat;
+}
+
+.mouldEdge {
+  position: absolute;
+  inset: 0;
+  background: var(--chrome-white);
+  -webkit-mask: var(--mould-edge) center / 100% 100% no-repeat;
+  mask: var(--mould-edge) center / 100% 100% no-repeat;
+}
+
+.title {
+  position: absolute;
+  inset: 0;
+  line-height: 0;
+}
+
+/* Home's own wordmark image: loading → follows Pour; live / static-gl → the 3D
+   draws it (kept for the accessible name); fallback → fully visible. */
+.heroImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: var(--pour);
+}
+
+:global(html[data-touch="live"]) .heroImage,
+:global(html[data-touch="static-gl"]) .heroImage {
+  opacity: 0;
+}
+
+:global(html[data-touch="fallback"]) .heroImage {
+  opacity: 1;
+}
+
+:global(html[data-touch="fallback"]) .mould {
+  display: none;
+}
+
+/* ---- top row: index marker ------------------------------------------------ */
+
+.topRow {
+  position: absolute;
+  top: calc(var(--header-h) + 4px);
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), var(--line) 22%, transparent 45%);
+}
+
+/* ---- bottom: cues · date + countdown · intro ------------------------------ */
+
+.bottom {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "date date"
+    "caption cues"
+    "count count";
+  align-items: center;
+  column-gap: 12px;
+}
+
+/* phones: big date on its own row, caption + cues share the next, then the
+   countdown at full width */
+.dateBlock,
+.date {
+  display: contents;
+}
+
+.dateMain {
+  grid-area: date;
+  margin-bottom: 2px;
+}
+
+.dateCaption {
+  grid-area: caption;
+}
+
+.dateMain {
+  font-family: var(--font-sans);
+  font-size: min(10vw, 4rem);
+  font-weight: 800;
+  font-variation-settings: "wdth" var(--wdth-wide);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: var(--chrome-white);
+  white-space: nowrap;
+}
+
+.dateCaption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  color: var(--liquid-silver);
+}
+
+.countdown {
+  grid-area: count;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.cues {
+  grid-area: cues;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.skip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--steel-grey);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  transition: color var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+
+.skip:hover,
+.skip:focus-visible {
+  color: var(--chrome-white);
+}
+
+/* nothing left to skip once the scene has settled (or never pinned) */
+.scene[data-hero-settled] .skip {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.scrollCue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  padding-top: 4px;
+  color: var(--steel-grey);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.scrollCue:hover {
+  color: var(--chrome-white);
+}
+
+/* phones / tablet portrait: compact cue (hairline only); label stays for AT */
+.scrollLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.scrollLine {
+  position: relative;
+  width: 1px;
+  height: 36px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.scrollLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--chrome-white));
+  transform: translateY(-100%);
+  animation: drip 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes drip {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* description + CTA: always in the DOM, revealed through Settle */
+.intro {
+  position: absolute;
+  top: calc(100% + 32px);
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+  opacity: var(--settle);
+  transform: translateY(calc((1 - var(--settle)) * 16px));
+}
+
+.intro:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
+.description {
+  max-width: 48ch;
+  color: var(--liquid-silver);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+/* ---- tablet & desktop (≥ TOUCH_MOBILE_MAX + 1) ----------------------------- */
+
+@media (min-width: 768px) {
+  .scene {
+    height: var(--pin-desktop);
+    margin-bottom: 0;
+  }
+
+  .stage {
+    --orb: clamp(150px, min(28vmin, 26svh), 320px);
+    --wm-w: max(
+      min(70vw, 440px),
+      min(78vw, 960px, calc((100svh - var(--orb) * 0.88 - 320px) * var(--wm-aspect, 2.83)))
+    );
+    display: flex;
+    flex-direction: column;
+    padding: var(--header-h) var(--gutter) clamp(20px, 3.4svh, 40px);
+  }
+
+  .handSlot {
+    left: calc(50% - min(32vw, 410px));
+    right: auto;
+    width: min(64vw, 820px);
+    height: 42svh;
+  }
+
+  .center {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  /* the settled orb sits above the wordmark, slightly overlapping its top */
+  .orbSlot {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: none;
+    margin-bottom: calc(var(--orb) * -0.12);
+  }
+
+  .wordmarkBox {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: none;
+  }
+
+  .bottom {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-areas: "intro cues date";
+    column-gap: 24px;
+    margin-top: 16px;
+  }
+
+  .intro {
+    grid-area: intro;
+    position: relative;
+    top: auto;
+    gap: 16px;
+  }
+
+  .description {
+    font-size: var(--fs-small);
+    line-height: 1.65;
+  }
+
+  .dateBlock {
+    grid-area: date;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+    justify-items: end;
+    text-align: right;
+  }
+
+  .date {
+    display: grid;
+    gap: 8px;
+  }
+
+  /* inside the desktop date column these are plain stacked items */
+  .dateMain,
+  .dateCaption,
+  .countdown {
+    grid-area: auto;
+    margin: 0;
+  }
+
+  .dateMain {
+    font-size: min(5.5rem, 6.2vw);
+  }
+
+  .countdown {
+    width: min(100%, 440px);
+    --countdown-justify: flex-end;
+  }
+
+  .cues {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .scrollLabel {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  .scrollLine {
+    height: 40px;
+  }
+}
+
+/* tablet portrait: the side columns are narrow — label-less cue, smaller date */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .dateMain {
+    font-size: 5.2vw;
+  }
+
+  .scrollLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+}
+
+@media (min-width: 1280px) {
+  .description {
+    max-width: 58ch;
+    font-size: var(--fs-body);
+    line-height: 1.55;
+  }
+}
+
+/* ---- no pin: reduced motion, static-gl, fallback --------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    height: 100svh;
+  }
+
+  .scrollLine::after {
+    animation: none;
+    transform: none;
+    opacity: 0.6;
+  }
+}
+
+:global(html[data-touch="static-gl"]) .scene,
+:global(html[data-touch="fallback"]) .scene {
+  height: 100svh;
+}

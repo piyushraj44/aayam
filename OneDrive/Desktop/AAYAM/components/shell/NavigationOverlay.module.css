@@ -1,0 +1,313 @@
+.overlay {
+  --nav-idx: clamp(2.25rem, 1.6rem + 2vw, 4.5rem);
+  --nav-fs: min(clamp(2.6rem, 1.3rem + 6.4vw, 7rem), 8.6svh);
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 var(--gutter);
+  background:
+    radial-gradient(120% 70% at 85% 0%, rgba(174, 181, 190, 0.07), transparent 60%),
+    linear-gradient(180deg, var(--obsidian) 0%, var(--void-black) 100%);
+  color: var(--chrome-white);
+  outline: none;
+}
+
+/* Faint technical grid: hairline at the index column and one at the right third */
+.grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--line), var(--line)) calc(var(--gutter) + var(--nav-idx)) 0 / 1px 100% no-repeat,
+    linear-gradient(var(--line), var(--line)) 72% 0 / 1px 100% no-repeat;
+  opacity: 0.7;
+}
+
+/* ---------- Top bar ---------- */
+
+.topBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  min-height: var(--header-h);
+}
+
+.mark {
+  width: clamp(92px, 8vw + 64px, 116px);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  margin-right: -10px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--chrome-white);
+}
+
+.close svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.close:hover svg,
+.close:focus-visible svg {
+  transform: rotate(90deg);
+}
+
+/* ---------- Rows ---------- */
+
+.nav {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  padding: clamp(4px, 1.4svh, 32px) 0;
+}
+
+.list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.row {
+  border-top: 1px solid var(--line);
+}
+
+.link {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--nav-idx) minmax(0, 1fr) auto;
+  grid-template-areas:
+    "idx label arrow"
+    "idx meta arrow";
+  align-items: center;
+  column-gap: 12px;
+  min-height: 56px;
+  padding: clamp(6px, 1svh, 16px) 0;
+  color: var(--liquid-silver);
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.link:focus-visible {
+  outline-offset: -2px;
+}
+
+.index {
+  grid-area: idx;
+  align-self: start;
+  padding-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: var(--steel-grey);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.label {
+  grid-area: label;
+  overflow-wrap: anywhere;
+  font-family: var(--font-sans);
+  font-size: var(--nav-fs);
+  font-weight: 800;
+  font-variation-settings: "wdth" var(--wdth-condensed);
+  font-stretch: 62%;
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+.meta {
+  grid-area: meta;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+}
+
+.meta:empty {
+  display: none;
+}
+
+.tag,
+.current {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 7px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag {
+  border: 1px solid var(--line-strong);
+  color: var(--liquid-silver);
+}
+
+.current {
+  border: 1px solid var(--chrome-white);
+  color: var(--chrome-white);
+}
+
+.current::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--chrome-white);
+}
+
+.arrow {
+  grid-area: arrow;
+  width: clamp(20px, 1rem + 1vw, 32px);
+  height: auto;
+  color: var(--chrome-white);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-med) var(--ease-out);
+}
+
+/* Liquid-silver sweep line along the bottom edge of the row */
+.sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--liquid-silver) 0%,
+    var(--chrome-white) 55%,
+    rgba(242, 244, 247, 0) 100%
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+
+/* Hover / focus */
+.link:hover,
+.link:focus-visible {
+  color: var(--chrome-white);
+}
+
+.link:hover .index,
+.link:focus-visible .index {
+  color: var(--chrome-white);
+}
+
+.link:hover .arrow,
+.link:focus-visible .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.link:hover .sweep,
+.link:focus-visible .sweep {
+  transform: scaleX(1);
+}
+
+/* Current route — marked by text + aria-current, not colour alone */
+.link[aria-current="page"] {
+  color: var(--chrome-white);
+}
+
+.link[aria-current="page"] .index {
+  color: var(--chrome-white);
+}
+
+/* Touch: no hover, so keep a quiet arrow visible */
+@media (hover: none) {
+  .arrow {
+    opacity: 0.45;
+    transform: none;
+  }
+}
+
+/* ---------- Footer strip ---------- */
+
+.footer {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px 0 max(18px, env(safe-area-inset-bottom));
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--liquid-silver);
+}
+
+.dot {
+  color: var(--steel-grey);
+}
+
+/* ---------- Wider screens: tag sits beside the label ---------- */
+
+@media (min-width: 640px) {
+  .link {
+    grid-template-columns: var(--nav-idx) auto minmax(0, 1fr) auto;
+    grid-template-areas: "idx label meta arrow";
+    column-gap: clamp(12px, 2vw, 28px);
+  }
+
+  .meta {
+    align-self: start;
+    padding-top: 0.55em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow,
+  .link:hover .arrow,
+  .link:focus-visible .arrow {
+    transform: none;
+  }
+
+  .sweep {
+    transform: scaleX(1);
+    opacity: 0;
+    transition: opacity var(--dur-fast) linear;
+  }
+
+  .link:hover .sweep,
+  .link:focus-visible .sweep {
+    opacity: 1;
+  }
+
+  .close:hover svg,
+  .close:focus-visible svg {
+    transform: none;
+  }
+}
