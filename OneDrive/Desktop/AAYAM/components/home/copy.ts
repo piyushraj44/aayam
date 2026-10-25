@@ -10,12 +10,6 @@ export const homeCopy = {
   eyebrow: "Three vibrant days",
   /** "… celebrates the stories, memories, and innovation that bring us together." */
   statement: "Stories, memories, and innovation that bring us together.",
-  /** "… thrilling competitions, dynamic performances, and high-energy workshops." */
-  pillars: [
-    { label: "Competitions", qualifier: "Thrilling" },
-    { label: "Performances", qualifier: "Dynamic" },
-    { label: "Workshops", qualifier: "High-energy" },
-  ],
 } as const;
 
 /** Accessible name of the Spotlight poster. */

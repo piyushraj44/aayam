@@ -61,7 +61,7 @@ export function StatusScreen({
         </div>
       </section>
 
-      <SiteFooter backToTop={false} />
+      <SiteFooter />
     </div>
   );
 }

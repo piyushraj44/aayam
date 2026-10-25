@@ -1,41 +1,81 @@
 .footer {
   position: relative;
   z-index: var(--z-content);
-  padding: clamp(40px, 7vw, 72px) var(--gutter) max(16px, env(safe-area-inset-bottom));
+  padding: clamp(48px, 7vw, 80px) var(--gutter) max(40px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
   background: var(--void-black);
 }
 
 .grid {
   display: grid;
-  gap: 40px;
+  gap: 48px;
 }
+
+/* ---- Brand column ---- */
 
 .brand {
   display: grid;
   justify-items: start;
-  gap: 14px;
+  gap: 18px;
   align-content: start;
 }
 
+/* Lock-up: "NIT Agartala's" above, the wordmark, the year tucked bottom-right */
 .brandLink {
-  display: inline-block;
-  min-height: 44px;
+  display: inline-grid;
+  justify-items: start;
+  gap: 4px;
+}
+
+.lockupInstitute {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--chrome-white);
 }
 
 .mark {
   width: clamp(130px, 14vw, 180px);
 }
 
-.tagline {
+.lockupYear {
+  justify-self: end;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--chrome-white);
+}
+
+.business {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.businessLabel {
   font-size: var(--fs-small);
   color: var(--liquid-silver);
+}
+
+.businessLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--chrome-white);
+  overflow-wrap: anywhere;
+}
+
+.businessLink:hover,
+.businessLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .socials {
   display: flex;
   gap: 6px;
-  margin: 6px 0 0 -10px;
+  margin: 0 0 0 -10px;
   padding: 0;
   list-style: none;
 }
@@ -55,15 +95,21 @@
   transform: translateY(-2px);
 }
 
+.credit {
+  font-size: var(--fs-small);
+  color: var(--liquid-silver);
+}
+
+/* ---- Column headings ---- */
+
 .heading {
   margin-bottom: 14px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--steel-grey);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--liquid-silver);
 }
+
+/* ---- Quick links ---- */
 
 .links ul {
   display: grid;
@@ -90,37 +136,62 @@
   background-size: 100% 1px;
 }
 
-.bottom {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 24px;
-  margin-top: clamp(32px, 5vw, 56px);
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+/* ---- For general queries ---- */
+
+.contactList {
+  display: grid;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.copy {
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.contact {
+  display: grid;
+  gap: 4px;
+}
+
+.contactName {
+  font-size: var(--fs-lead);
+  font-weight: 700;
+  color: var(--chrome-white);
+}
+
+.contactRole {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--chrome-white);
+}
+
+.contactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  font-size: var(--fs-small);
+  color: var(--liquid-silver);
+  overflow-wrap: anywhere;
+}
+
+.contactLink:hover,
+.contactLink:focus-visible {
+  color: var(--chrome-white);
+}
+
+.pending {
+  font-size: var(--fs-small);
   color: var(--liquid-silver);
 }
 
-.top {
-  font-size: var(--fs-micro);
-}
-
 @media (min-width: 768px) {
+  /* three columns: brand | quick links (centre) | general queries */
   .grid {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 48px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 56px;
   }
 
-  .links {
-    min-width: 280px;
+  .queries {
+    justify-self: end;
   }
 }
 
@@ -129,4 +200,12 @@
   .social:focus-visible {
     transform: none;
   }
+}
+
+/* phone / mail glyphs in front of contact details */
+.inlineIcon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--chrome-white);
 }

@@ -729,7 +729,7 @@ export function createStage(host: HTMLElement, callbacks: StageCallbacks): Stage
         contactDir.set(tip.x - place.cx, -(tip.y - place.cy), 0).normalize();
       }
     }
-    const contactDur = Math.min(600, tc.contactMs) / 1000;
+    const contactDur = tc.contactMs / 1000;
     contactAge += dt;
     const cp = still ? 1 : Math.min(1, contactAge / contactDur);
     const contactOn = cp < 1;

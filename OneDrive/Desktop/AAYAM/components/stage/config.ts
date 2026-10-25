@@ -163,8 +163,8 @@ export const stageConfig = {
    * lib/touchScene.ts (TOUCH_PHASES); these knobs shape what happens inside them.
    */
   touch: {
-    /** Damping of the scroll progress t (fraction per 60 fps frame, ~0.12–0.18). */
-    damping: 0.15,
+    /** Damping of the scroll progress t (fraction per 60 fps frame; lower = smoother, slower glide). */
+    damping: 0.07,
     /** Before the pour the orb sits lower: offset in hero-anchor sides (down = +). */
     orbStartDrop: 1.0,
     /** …but never lower than the wordmark's centre or this fraction of the viewport height. */
@@ -178,8 +178,8 @@ export const stageConfig = {
     tendrilRoot: 0.62,
     tendrilNeck: 0.07,
     tendrilBead: 0.085,
-    /** Contact event duration (ms, ≤ 600) — ripple ring, gold glyph flash, bloom. */
-    contactMs: 450,
+    /** Contact event duration (ms) — ripple ring, gold glyph flash, bloom. */
+    contactMs: 700,
     /** Radial height of the contact ripple ring (orb radii). */
     rippleAmplitude: 0.06,
     /** Strength of the white specular bloom at the contact point. */

@@ -5,9 +5,9 @@
   right: 0;
   z-index: var(--z-header);
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   height: var(--header-h);
   /* --scrollbar-comp is set while the overlay locks scrolling (avoids a jump) */
   padding: 0 calc(var(--gutter) + var(--scrollbar-comp, 0px)) 0 var(--gutter);
@@ -40,7 +40,8 @@
 }
 
 .brand,
-.trigger {
+.trigger,
+.bar {
   pointer-events: auto;
 }
 
@@ -112,3 +113,121 @@
   transform: scaleX(0.62);
 }
 
+
+/* ---------- Inline bar: Events · Timeline · Guests · Merch ---------- */
+
+.bar {
+  justify-self: end;
+  min-width: 0;
+}
+
+.barList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Phones/tablets: only the badged Merch link sits in the bar */
+.barItem {
+  display: none;
+}
+
+.barLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--chrome-white);
+}
+
+.barLink::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+
+.barLink:hover::after,
+.barLink:focus-visible::after,
+.barLink[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* the Merch "Early bird" pill gently zooms in and out */
+.badge {
+  padding: 3px 7px;
+  background: var(--chrome-white);
+  color: var(--deep-black);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  animation: badge-pulse 1.6s var(--ease-in-out) infinite;
+}
+
+@keyframes badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(242, 244, 247, 0.35);
+  }
+
+  50% {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 5px rgba(242, 244, 247, 0);
+  }
+}
+
+@media (max-width: 400px) {
+  /* narrow phones: make room for "Merch + Early bird" by showing only the menu icon */
+  .triggerLabel {
+    display: none;
+  }
+
+  .barBadged .barLink {
+    gap: 8px;
+    padding: 0 6px;
+    letter-spacing: 0.14em;
+  }
+
+  .barBadged .badge {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bar {
+    justify-self: stretch;
+  }
+
+  .barList {
+    justify-content: space-evenly;
+  }
+
+  .barItem {
+    display: list-item;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    animation: none;
+  }
+}

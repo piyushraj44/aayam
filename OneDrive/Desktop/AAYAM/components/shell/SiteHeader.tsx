@@ -4,12 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Wordmark } from "@/components/brand/Wordmark";
-import { site } from "@/content/site";
+import { headerLinks, navItems, site } from "@/content/site";
 import { NavigationOverlay } from "./NavigationOverlay";
 import styles from "./SiteHeader.module.css";
 
 const OVERLAY_ID = "site-navigation";
 const SCROLL_THRESHOLD = 24;
+
+const barLinks = headerLinks
+  .map((href) => navItems.find((item) => item.href === href))
+  .filter((item): item is (typeof navItems)[number] => item !== undefined);
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -51,6 +55,28 @@ export function SiteHeader() {
         <Link href="/" className={styles.brand} aria-label={`${site.name} home`}>
           <Wordmark variant="chrome" alt="" sizes="120px" className={styles.mark} />
         </Link>
+
+        <nav className={styles.bar} aria-label="Highlights">
+          <ul className={styles.barList}>
+            {barLinks.map((item) => (
+              <li key={item.href} className={item.badge ? styles.barBadged : styles.barItem}>
+                <Link
+                  href={item.href}
+                  className={styles.barLink}
+                  aria-current={item.href === pathname ? "page" : undefined}
+                >
+                  {item.label}
+                  {item.badge ? (
+                    <span className={styles.badge}>
+                      <span className="visually-hidden">, </span>
+                      {item.badge}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <button
           ref={triggerRef}

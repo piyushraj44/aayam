@@ -139,6 +139,7 @@
 }
 
 .tag,
+.badge,
 .current {
   display: inline-flex;
   align-items: center;
@@ -156,6 +157,32 @@
 .tag {
   border: 1px solid var(--line-strong);
   color: var(--liquid-silver);
+}
+
+/* highlighted badge (Merch: "Early bird") — gently zooms in and out */
+.badge {
+  border: 1px solid var(--chrome-white);
+  background: var(--chrome-white);
+  color: var(--deep-black);
+  font-weight: 700;
+  animation: nav-badge-pulse 1.6s var(--ease-in-out) infinite;
+}
+
+@keyframes nav-badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    animation: none;
+  }
 }
 
 .current {

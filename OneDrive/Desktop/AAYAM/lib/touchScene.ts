@@ -3,8 +3,8 @@
  * (components/home) and the WebGL stage (components/stage). Pure, framework-free.
  */
 
-/** Pinned wrapper heights (keep the intro short — see docs/PROMPT-the-touch.md §2). */
-export const TOUCH_PIN_SVH = { desktop: 170, mobile: 140 } as const;
+/** Pinned wrapper heights: how much scrolling the Touch intro takes (longer = slower animation). */
+export const TOUCH_PIN_SVH = { desktop: 260, mobile: 210 } as const;
 
 /** Viewport width (px) below which the mobile pin height and composition apply. */
 export const TOUCH_MOBILE_MAX = 767;

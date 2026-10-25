@@ -1,68 +1,29 @@
 /* --------------------------------------------------------------------------
-   Section 02 — thin-line grid frame (mobile-first: one stacked column)
+   Section 02 — compact two-column panel (mobile-first: one stacked column)
    -------------------------------------------------------------------------- */
 
 .core {
   position: relative;
-  /* one below the hero: the static burst fallback may spill upward, but never over hero copy */
-  z-index: calc(var(--z-content) - 1);
-  /* light tint on the frame panels so the burst reads through the grid;
-     stronger glass only directly behind running text */
-  --panel-tint: rgba(5, 6, 8, 0.25);
-  --text-glass: rgba(5, 6, 8, 0.62);
-  --text-shadow: 0 1px 14px rgba(5, 6, 8, 0.95);
-
-  min-height: 100svh;
-  padding: calc(var(--header-h) + 16px) var(--gutter) clamp(32px, 6svh, 64px);
-  /* the static burst fallback (WebGL off) is ~3× its anchor; never let it widen the page */
+  z-index: var(--z-content);
+  padding: clamp(40px, 6vw, 72px) var(--gutter);
+  /* the slide-ins start 120px off to the side; never let them widen the page */
   overflow-x: clip;
 }
 
 .frame {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    "head"
-    "anchor"
-    "poster"
-    "pillars"
-    "line";
-  border: 1px solid var(--line);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: center;
+  max-width: 1200px;
+  margin-inline: auto;
 }
 
-.panel {
-  position: relative;
-  background: var(--panel-tint);
-  border-bottom: 1px solid var(--line);
-}
+/* ---- text column ------------------------------------------------------ */
 
-.panel:last-child {
-  border-bottom: 0;
-}
-
-/* tiny chrome corner tick on every panel — echoes the hairline poster */
-.panel::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 14px;
-  height: 1px;
-  background: var(--chrome-white);
-  opacity: 0.7;
-}
-
-/* ---- heading: chrome wordmark ---------------------------------------- */
-
-.head {
-  grid-area: head;
-}
-
-.headInner {
+.text {
   display: grid;
-  gap: 22px;
-  padding: 20px 20px 26px;
+  justify-items: start;
+  gap: clamp(20px, 3vw, 32px);
 }
 
 .title {
@@ -71,40 +32,15 @@
 
 .titleMark {
   display: block;
-  width: min(100%, 520px);
+  width: min(100%, 460px);
 }
-
-/* ---- anchor ----------------------------------------------------------- */
-
-.anchorCell {
-  grid-area: anchor;
-  display: grid;
-  place-items: center;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.anchor {
-  position: relative;
-  width: min(78vw, 360px);
-  aspect-ratio: 1;
-}
-
-/* ---- statement + Discover --------------------------------------------- */
 
 .line {
-  grid-area: line;
-}
-
-.lineInner {
   display: grid;
-  justify-items: start;
-  gap: 18px;
-  padding: 22px 20px 26px;
+  gap: 12px;
 }
 
 .eyebrow {
-  text-shadow: var(--text-shadow);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
   letter-spacing: 0.22em;
@@ -114,10 +50,6 @@
 
 .statement {
   max-width: 24ch;
-  padding: 2px 6px 4px;
-  margin-inline: -6px;
-  background: var(--text-glass);
-  text-shadow: var(--text-shadow);
   font-size: clamp(1.2rem, 1rem + 0.8vw, 1.75rem);
   font-weight: 500;
   line-height: 1.3;
@@ -125,163 +57,24 @@
   color: var(--chrome-white);
 }
 
-/* ---- Spotlight poster + countdown -------------------------------------- */
+/* ---- Spotlight poster ------------------------------------------------- */
 
 .posterCell {
-  grid-area: poster;
-  padding: 26px 18px 24px;
-}
-
-.posterInner {
   display: grid;
   justify-items: center;
-  gap: 20px;
 }
 
-/* phones: a full-column portrait card right after the burst */
-.poster,
-/* ---- pillars + Explore events ---------------------------------------- */
-
-.pillars {
-  grid-area: pillars;
+.posterCell .poster {
+  width: min(72vw, 300px);
 }
 
-.pillarsInner {
-  display: grid;
-  justify-items: start;
-  gap: 22px;
-  padding: 8px 20px 26px;
-}
-
-.pillarList {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pillar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.pillarLabel {
-  text-shadow: var(--text-shadow);
-  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
-  font-weight: 600;
-  font-variation-settings: "wdth" var(--wdth-condensed);
-  text-transform: uppercase;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: var(--chrome-white);
-}
-
-.pillarQualifier {
-  text-shadow: var(--text-shadow);
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--liquid-silver);
-}
-
-/* ---- tablet: two columns under a full-width head + burst -------------- */
-
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .frame {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "head head"
-      "anchor anchor"
-      "poster pillars"
-      "poster line";
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   }
 
-  .anchor {
-    width: min(56vw, 440px);
-  }
-
-  .posterCell {
-    border-bottom: 0;
-    border-right: 1px solid var(--line);
-  }
-
-  .pillars {
-    display: flex;
-    align-items: flex-end;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .pillarsInner {
-    width: 100%;
-  }
-}
-
-/* ---- desktop: three columns, the burst blooms in the middle ----------- */
-
-@media (min-width: 1024px) {
-  .frame {
-    min-height: calc(100svh - var(--header-h) - 16px - clamp(32px, 6svh, 64px));
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.25fr) minmax(0, 0.92fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-areas:
-      "head    anchor poster"
-      "pillars anchor poster"
-      "line    anchor poster";
-    border-inline: 0;
-  }
-
-  .anchorCell {
-    padding: 32px 0;
-    border-bottom: 0;
-    border-inline: 1px solid var(--line);
-  }
-
-  .anchor {
-    width: min(100% - 48px, 56vmin, 620px);
-  }
-
-  .head {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .headInner {
-    padding: 28px 32px 36px;
-  }
-
-  .line {
-    border-bottom: 0;
-  }
-
-  .lineInner {
-    padding: 28px 32px 32px;
-  }
-
-  .posterCell {
-    display: grid;
-    align-content: center;
-    padding: 24px 20px;
-    border-right: 0;
-    border-bottom: 0;
-  }
-
-  /* the 9:16 card is sized by the viewport height so the frame fits one screen */
-  .poster,
-  .pillars {
-    display: flex;
-    align-items: center;
-  }
-
-  .pillarsInner {
-    gap: 20px;
-    padding: 12px 32px 28px;
-  }
-
-  .pillar {
-    padding: 12px 0;
+  .posterCell .poster {
+    /* keep the 9:16 card well inside one screen */
+    width: min(100%, calc((100svh - 260px) * 9 / 16), 320px);
   }
 }

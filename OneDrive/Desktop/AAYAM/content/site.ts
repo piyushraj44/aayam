@@ -51,6 +51,8 @@ export type NavItem = {
   href: string;
   /** false → the route renders the shared Coming Soon state */
   ready: boolean;
+  /** Optional highlighted badge, e.g. "Early bird" */
+  badge?: string;
 };
 
 /** Exactly the seven approved top-level destinations, in order. */
@@ -60,9 +62,87 @@ export const navItems: readonly NavItem[] = [
   { label: "Guests", href: "/guests", ready: false },
   { label: "Timeline", href: "/timeline", ready: false },
   { label: "Sponsors", href: "/sponsors", ready: false },
-  { label: "Merch", href: "/merch", ready: true },
+  { label: "Merch", href: "/merch", ready: true, badge: "Early bird" },
   { label: "Our Team", href: "/team", ready: false },
 ] as const;
+
+/** Destinations shown directly in the top bar on desktop (Merch also on phones). */
+export const headerLinks: readonly string[] = ["/events", "/timeline", "/guests", "/merch"];
+
+export type Contact = {
+  name: string;
+  role: string;
+  phone?: string;
+  email?: string;
+};
+
+/**
+ * "For general queries" contacts in the footer.
+ */
+export const contacts: readonly Contact[] = [
+  {
+    name: "Shanit Tiwari",
+    role: "GS Technical",
+    phone: "+91 76300 12283",
+    email: "shanittiwari11@gmail.com",
+  },
+  {
+    name: "Om Mishra",
+    role: "AGS Technical",
+    phone: "+91 88404 07983",
+    email: "mishranit76@gmail.com",
+  },
+  {
+    name: "Satakshi Gupta",
+    role: "AGS Technical",
+    phone: "+91 63938 67824",
+    email: "satakshig04@gmail.com",
+  },
+];
+
+/** Footer: email for business and sponsorship queries. */
+export const businessEmail = "btc2024.official@gmail.com";
+
+/** Footer credit line. */
+export const credit = "Designed by Team Web Operations";
+
+export type GalleryPhoto = {
+  /** Path under public/, e.g. "/images/gallery/01.webp" */
+  src: string;
+  alt: string;
+};
+
+/**
+ * Home-page gallery mosaic — photos from past editions of AAYAM (files in
+ * public/images/gallery/). The mosaic is designed for exactly 24 photos; the
+ * order matters: 1, 6, 9, 10, 13, 14, 21 and 24 are the large tiles.
+ */
+export const gallery: readonly GalleryPhoto[] = [
+  { src: "/images/gallery/01.webp", alt: "Performers on the main AAYAM stage in front of a glittering LED screen" },
+  { src: "/images/gallery/02.webp", alt: "A packed night crowd holding up phone lights at the AAYAM grounds" },
+  { src: "/images/gallery/03.webp", alt: "Drones and model aircraft displayed at a technical exhibition" },
+  { src: "/images/gallery/04.webp", alt: "A speaker addressing the audience in front of sports-team banners" },
+  { src: "/images/gallery/05.webp", alt: "A tabla player performing on stage under blue lights" },
+  { src: "/images/gallery/06.webp", alt: "The AAYAM main stage lit by beams of stage lights above a large LED screen" },
+  { src: "/images/gallery/07.webp", alt: "A singer performing under purple stage lights at night" },
+  { src: "/images/gallery/08.webp", alt: "Dancers performing on the main stage in front of a starry backdrop" },
+  { src: "/images/gallery/10.webp", alt: "Army officers explaining equipment at a defence display" },
+  { src: "/images/gallery/11.webp", alt: "The crowd cheering with raised hands during a night concert" },
+  { src: "/images/gallery/12.webp", alt: "A singer performing under purple light beside the stage truss" },
+  { src: "/images/gallery/13.webp", alt: "A guest speaker addressing the crowd from the main stage at night" },
+  { src: "/images/gallery/14.webp", alt: "A wide view of students cheering in the crowd" },
+  { src: "/images/gallery/15.webp", alt: "The AAYAM team gathered on stage for a group photo" },
+  { src: "/images/gallery/16.webp", alt: "Student-built drones laid out at the project exhibition" },
+  { src: "/images/gallery/17.webp", alt: "Participants working on laptops during a workshop" },
+  { src: "/images/gallery/18.webp", alt: "A speaker on stage beside a costumed mascot" },
+  { src: "/images/gallery/19.webp", alt: "Students seated in a classroom during a competition round" },
+  { src: "/images/gallery/20.webp", alt: "A soldier presenting equipment at the defence display" },
+  { src: "/images/gallery/21.webp", alt: "Speakers taking a selfie with the packed auditorium" },
+  { src: "/images/gallery/22.webp", alt: "A panel discussion with guests seated on stage" },
+  { src: "/images/gallery/23.webp", alt: "Students discussing their work at a project table" },
+  { src: "/images/gallery/24.webp", alt: "Rows of participants at computers in a lab" },
+  { src: "/images/gallery/25.webp", alt: "Guests at the inaugural ceremony on stage" },
+];
 
 export type MerchItem = {
   name: string;

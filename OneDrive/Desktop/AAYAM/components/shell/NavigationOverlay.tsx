@@ -215,6 +215,12 @@ export function NavigationOverlay({
                             Current
                           </span>
                         ) : null}
+                        {item.badge ? (
+                          <span className={styles.badge}>
+                            <span className="visually-hidden">, </span>
+                            {item.badge}
+                          </span>
+                        ) : null}
                         {!item.ready ? (
                           <span className={styles.tag}>
                             <span className="visually-hidden">, </span>

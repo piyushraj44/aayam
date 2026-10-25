@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { damp, heroProgress } from "@/lib/touchScene";
 
 /** Per-60fps-frame smoothing for --hero-t (docs/TOUCH-CONTRACT.md). */
-const DAMP_RATE = 0.15;
+const DAMP_RATE = 0.07;
 /** At/above this the intro counts as finished (the Skip intro link retires). */
 const SETTLED_AT = 0.98;
 
