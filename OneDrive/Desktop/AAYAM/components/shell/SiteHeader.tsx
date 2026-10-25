@@ -52,11 +52,6 @@ export function SiteHeader() {
           <Wordmark variant="chrome" alt="" sizes="120px" className={styles.mark} />
         </Link>
 
-        <p className={styles.meta}>
-          {site.institute} · {site.dates.dayStart}–{site.dates.dayEnd} {site.dates.month}{" "}
-          {site.dates.year}
-        </p>
-
         <button
           ref={triggerRef}
           type="button"

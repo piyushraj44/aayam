@@ -1,5 +1,4 @@
 .overlay {
-  --nav-idx: clamp(2.25rem, 1.6rem + 2vw, 4.5rem);
   --nav-fs: min(clamp(2.6rem, 1.3rem + 6.4vw, 7rem), 8.6svh);
 
   position: fixed;
@@ -19,14 +18,12 @@
   outline: none;
 }
 
-/* Faint technical grid: hairline at the index column and one at the right third */
+/* Faint technical grid: one hairline at the right third */
 .grid {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(var(--line), var(--line)) calc(var(--gutter) + var(--nav-idx)) 0 / 1px 100% no-repeat,
-    linear-gradient(var(--line), var(--line)) 72% 0 / 1px 100% no-repeat;
+  background: linear-gradient(var(--line), var(--line)) 72% 0 / 1px 100% no-repeat;
   opacity: 0.7;
 }
 
@@ -97,10 +94,10 @@
 .link {
   position: relative;
   display: grid;
-  grid-template-columns: var(--nav-idx) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    "idx label arrow"
-    "idx meta arrow";
+    "label arrow"
+    "meta arrow";
   align-items: center;
   column-gap: 12px;
   min-height: 56px;
@@ -114,16 +111,6 @@
   outline-offset: -2px;
 }
 
-.index {
-  grid-area: idx;
-  align-self: start;
-  padding-top: 0.5em;
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.16em;
-  color: var(--steel-grey);
-  transition: color var(--dur-fast) var(--ease-out);
-}
 
 .label {
   grid-area: label;
@@ -220,10 +207,6 @@
   color: var(--chrome-white);
 }
 
-.link:hover .index,
-.link:focus-visible .index {
-  color: var(--chrome-white);
-}
 
 .link:hover .arrow,
 .link:focus-visible .arrow {
@@ -241,9 +224,6 @@
   color: var(--chrome-white);
 }
 
-.link[aria-current="page"] .index {
-  color: var(--chrome-white);
-}
 
 /* Touch: no hover, so keep a quiet arrow visible */
 @media (hover: none) {
@@ -277,8 +257,8 @@
 
 @media (min-width: 640px) {
   .link {
-    grid-template-columns: var(--nav-idx) auto minmax(0, 1fr) auto;
-    grid-template-areas: "idx label meta arrow";
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "label meta arrow";
     column-gap: clamp(12px, 2vw, 28px);
   }
 

@@ -1,11 +1,103 @@
 .footer {
+  position: relative;
+  z-index: var(--z-content);
+  padding: clamp(40px, 7vw, 72px) var(--gutter) max(16px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--void-black);
+}
+
+.grid {
+  display: grid;
+  gap: 40px;
+}
+
+.brand {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  align-content: start;
+}
+
+.brandLink {
+  display: inline-block;
+  min-height: 44px;
+}
+
+.mark {
+  width: clamp(130px, 14vw, 180px);
+}
+
+.tagline {
+  font-size: var(--fs-small);
+  color: var(--liquid-silver);
+}
+
+.socials {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 0 -10px;
+  padding: 0;
+  list-style: none;
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--liquid-silver);
+  transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.social:hover,
+.social:focus-visible {
+  color: var(--chrome-white);
+  transform: translateY(-2px);
+}
+
+.heading {
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--steel-grey);
+}
+
+.links ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 2px 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--chrome-white);
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 0 1px no-repeat;
+  transition: background-size var(--dur-med) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+
+.bottom {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 8px 24px;
-  min-height: 56px;
-  padding: 12px var(--gutter) max(12px, env(safe-area-inset-bottom));
+  margin-top: clamp(32px, 5vw, 56px);
+  padding-top: 16px;
   border-top: 1px solid var(--line);
 }
 
@@ -19,4 +111,22 @@
 
 .top {
   font-size: var(--fs-micro);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px;
+  }
+
+  .links {
+    min-width: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social:hover,
+  .social:focus-visible {
+    transform: none;
+  }
 }

@@ -63,7 +63,7 @@ export default async function OpengraphImage() {
             textTransform: "uppercase",
           }}
         >
-          {`${site.institute} · ${site.dates.dayStart}–${site.dates.dayEnd} ${site.dates.monthLong} ${site.dates.year}`}
+          {`${site.institute} · ${site.dateStatus}`}
         </div>
       </div>
     ),

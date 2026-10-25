@@ -13,7 +13,8 @@ const REST = { x: 50, y: 18 };
 const NUM_W = 300;
 
 /**
- * "COMING SOON 13—15 NOV" — the Spotlight poster after date-poster-reference.png.
+ * "COMING · DATE REVEAL · SOON" — the Spotlight poster after date-poster-reference.png.
+ * The fest dates stay hidden until announced, so the box reads DATE / REVEAL.
  * One soft cone sweeps onto the card when it first enters view (500 ms). Then:
  * fine pointer → the light follows the cursor (damped); touch → slow ambient
  * drift; reduced motion → static lit state. The rAF loop runs only while the
@@ -112,8 +113,6 @@ export function SpotlightPoster({ className }: { className?: string }) {
     };
   }, []);
 
-  const { dates } = site;
-
   return (
     <div
       ref={cardRef}
@@ -156,10 +155,10 @@ export function SpotlightPoster({ className }: { className?: string }) {
               lengthAdjust="spacingAndGlyphs"
               stroke={`url(#${gradientId})`}
             >
-              {dates.dayStart}—{dates.dayEnd}
+              DATE
             </text>
           </svg>
-          <span className={styles.month}>{dates.month}</span>
+          <span className={styles.month}>REVEAL</span>
         </span>
 
         <span className={styles.small}>{site.institute}</span>

@@ -6,7 +6,7 @@ export const OG_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: `${site.name} ${site.dates.year} — ${site.institute} · ${site.dates.dayStart}–${site.dates.dayEnd} ${site.dates.monthLong} ${site.dates.year}`,
+  alt: `${site.name} ${site.year} — ${site.institute}`,
 } as const;
 
 type SectionMetadataInput = {
@@ -23,7 +23,7 @@ type SectionMetadataInput = {
  * opengraph-image), so the shared fields and the image are repeated here.
  */
 export function sectionMetadata({ title, description, path }: SectionMetadataInput): Metadata {
-  const shareTitle = `${title} · ${site.name} ${site.dates.year}`;
+  const shareTitle = `${title} · ${site.name} ${site.year}`;
   return {
     title,
     description,

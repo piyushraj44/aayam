@@ -4,7 +4,8 @@
 
 .core {
   position: relative;
-  z-index: var(--z-content);
+  /* one below the hero: the static burst fallback may spill upward, but never over hero copy */
+  z-index: calc(var(--z-content) - 1);
   /* light tint on the frame panels so the burst reads through the grid;
      stronger glass only directly behind running text */
   --panel-tint: rgba(5, 6, 8, 0.25);
@@ -139,10 +140,6 @@
 
 /* phones: a full-column portrait card right after the burst */
 .poster,
-.posterCountdown {
-  width: min(100%, 420px);
-}
-
 /* ---- pillars + Explore events ---------------------------------------- */
 
 .pillars {
@@ -165,18 +162,11 @@
 
 .pillar {
   display: grid;
-  grid-template-columns: 3.2ch minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: 14px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
-}
-
-.pillarIndex {
-  text-shadow: var(--text-shadow);
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  color: var(--steel-grey);
 }
 
 .pillarLabel {
@@ -281,10 +271,6 @@
 
   /* the 9:16 card is sized by the viewport height so the frame fits one screen */
   .poster,
-  .posterCountdown {
-    width: min(100%, calc((100svh - 300px) * 9 / 16));
-  }
-
   .pillars {
     display: flex;
     align-items: center;

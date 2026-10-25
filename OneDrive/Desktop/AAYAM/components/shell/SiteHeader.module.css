@@ -62,16 +62,6 @@
   filter: brightness(1.15);
 }
 
-.meta {
-  display: none;
-  font-family: var(--font-mono);
-  font-size: var(--fs-micro);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--liquid-silver);
-  white-space: nowrap;
-}
-
 .trigger {
   display: inline-flex;
   align-items: center;
@@ -122,12 +112,3 @@
   transform: scaleX(0.62);
 }
 
-@media (min-width: 768px) {
-  .header {
-    grid-template-columns: 1fr auto 1fr;
-  }
-
-  .meta {
-    display: block;
-  }
-}

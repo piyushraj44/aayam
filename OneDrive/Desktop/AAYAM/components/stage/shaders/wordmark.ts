@@ -66,8 +66,12 @@ float box(vec3 d, float az0, float el0, float hw, float hh, float soft) {
 
 vec3 warmStudio(vec3 d) {
   vec3 col = vec3(0.005, 0.003, 0.004) + vec3(0.03, 0.012, 0.01) * exp(-abs(d.y) * 6.0);
-  col += vec3(1.0, 0.88, 0.7) * 3.0 * box(d, -0.75, 0.7, 0.5, 0.22, 0.14);   // warm key softbox
-  col += vec3(1.0, 0.8, 0.62) * 1.6 * box(d, 0.15, 1.2, 1.5, 0.14, 0.1);    // overhead
+  // Warm key: a long, tilted strip rather than a box, so each tip catches a
+  // differently shaped streak instead of the same elliptical ring.
+  vec3 dk = vec3(d.x * 0.94 - d.y * 0.34, d.x * 0.34 + d.y * 0.94, d.z);
+  col += vec3(1.0, 0.86, 0.66) * 2.6 * box(dk, -0.8, 0.55, 0.11, 0.6, 0.09);
+  col += vec3(1.0, 0.72, 0.42) * 1.5 * box(d, 0.55, 0.85, 0.06, 0.45, 0.05);  // second strip, other angle
+  col += vec3(1.0, 0.8, 0.62) * 0.9 * box(d, 0.15, 1.25, 1.3, 0.14, 0.14);   // soft overhead
   col += vec3(1.0, 0.6, 0.28) * 2.2 * box(d, 1.15, 0.22, 0.08, 0.5, 0.05);  // orange strip
   col += uGold * 3.2 * box(d, 2.75, -0.05, 0.7, 0.05, 0.035);               // gold rim strip
   col += uGold * 1.4 * box(d, -2.6, 0.35, 0.25, 0.06, 0.04);
@@ -97,8 +101,11 @@ void main() {
   // Body: magenta in the depths, red where it faces up, wrap-lit by the key.
   vec3 key = normalize(vec3(-0.5, 0.7, 0.6));
   float wrap = clamp((dot(N, key) + 0.45) / 1.45, 0.0, 1.0);
-  vec3 body = mix(uMagenta * 0.6, uRed, clamp(0.05 + 0.45 * N.y + 0.35 * wrap, 0.0, 1.0));
-  vec3 col = body * (0.04 + 0.6 * wrap * wrap) * uBody;
+  // Magenta in the depths, red only where the surface faces the key; the
+  // pockets fall off to near-black so the strokes read as sculpted.
+  vec3 body = mix(uMagenta * 0.7, mix(uMagenta, uRed, 0.45), clamp(-0.1 + 0.35 * N.y + 0.45 * wrap, 0.0, 1.0));
+  float pocket = smoothstep(0.0, 0.55, wrap) * mix(0.55, 1.0, NdV);
+  vec3 col = body * (0.025 + 0.6 * wrap * wrap) * pocket * uBody;
 
   // Fake thickness / transmission: the balloon surface is flatter where the
   // stroke is thin (|z| small), so light glows orange through tips and necks

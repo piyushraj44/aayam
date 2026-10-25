@@ -1,0 +1,106 @@
+.page {
+  position: relative;
+  z-index: var(--z-content);
+  padding: calc(var(--header-h) + clamp(24px, 6vw, 64px)) var(--gutter) clamp(48px, 8vw, 96px);
+}
+
+.head {
+  margin-bottom: clamp(24px, 4vw, 48px);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--steel-grey);
+}
+
+.title {
+  margin-top: 8px;
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  font-variation-settings: "wdth" var(--wdth-condensed);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--chrome-white);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  border: 1px solid var(--line);
+  background: var(--obsidian);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #fff; /* the product photos are shot on white */
+}
+
+.img {
+  object-fit: contain;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.card:hover .img {
+  transform: scale(1.03);
+}
+
+.info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.name {
+  font-size: var(--fs-h3);
+  font-weight: 800;
+  font-variation-settings: "wdth" var(--wdth-condensed);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lead);
+  color: var(--chrome-white);
+}
+
+.note {
+  margin-top: clamp(20px, 3vw, 32px);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--liquid-silver);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .img {
+    transform: none;
+  }
+}

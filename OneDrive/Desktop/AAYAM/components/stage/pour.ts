@@ -37,14 +37,24 @@ void main() {
   float u = mix(aParams.z, aParams.y, s); // only the visible span
   vec2 a = aEnds.xy;
   vec2 b = aEnds.zw;
-  vec2 c = vec2(a.x, mix(a.y, b.y, 0.55));
-  vec2 p = mix(mix(a, c, u), mix(c, b, u), u);
-  vec2 tng = normalize(2.0 * (1.0 - u) * (c - a) + 2.0 * u * (b - c) + vec2(0.0, 1e-3));
+  // Gravity: leaves the root straight down, enters the fill front vertically.
+  float drop = max(b.y - a.y, 1.0);
+  vec2 c1 = a + vec2(0.0, drop * 0.55);
+  vec2 c2 = b - vec2(0.0, drop * 0.4);
+  float v = 1.0 - u;
+  vec2 p = v * v * v * a + 3.0 * v * v * u * c1 + 3.0 * v * u * u * c2 + u * u * u * b;
+  vec2 tng = normalize(3.0 * v * v * (c1 - a) + 6.0 * v * u * (c2 - c1) + 3.0 * u * u * (b - c2) + vec2(0.0, 1e-3));
   vec2 nrm = vec2(-tng.y, tng.x);
 
-  float w = aParams.x * (1.0 - 0.5 * u) * (0.86 + 0.14 * sin(u * 26.0 - uTime * 7.0 + aParams.w * 6.2831));
-  // Rounded falling front while the head is still in the air.
-  if (aParams.y < 0.999) w *= sqrt(clamp((aParams.y - u) / 0.035, 0.0, 1.0));
+  // Thick at the root, thinning as it falls, with a slight liquid wobble.
+  float w = aParams.x * (1.0 - 0.55 * u) * (0.88 + 0.12 * sin(u * 24.0 - uTime * 7.0 + aParams.w * 6.2831));
+  // Falling front: a round bead slightly wider than the stream behind it.
+  if (aParams.y < 0.999) {
+    float s = (aParams.y - u) / 0.045;
+    float cap = sqrt(clamp(1.0 - (1.0 - min(s, 1.0)) * (1.0 - min(s, 1.0)), 0.0, 1.0));
+    float bead = mix(1.45, 1.0, smoothstep(1.0, 2.2, s));
+    w *= cap * bead;
+  }
   p += nrm * side * w * 0.5;
 
   vAcross = side;

@@ -155,7 +155,8 @@
 }
 
 .stopEdge {
-  stop-color: var(--liquid-silver);
+  stop-color: var(--chrome-white);
+  stop-opacity: 0.75;
 }
 
 .stopCore {
@@ -163,7 +164,7 @@
 }
 
 .month {
-  font-size: 23cqi;
+  font-size: 12.5cqi;
   font-weight: 800;
   font-variation-settings: "wdth" var(--wdth-wide);
   line-height: 0.86;

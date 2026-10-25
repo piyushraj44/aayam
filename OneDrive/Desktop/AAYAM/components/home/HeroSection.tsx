@@ -5,9 +5,7 @@ import { TOUCH_PHASES, TOUCH_PIN_SVH } from "@/lib/touchScene";
 import wordmarkArt from "@/public/images/brand/aayam-wordmark@2x.webp";
 import mouldEdge from "@/public/images/home/wordmark-mould-edge.webp";
 import mouldFill from "@/public/images/home/wordmark-mould-fill.webp";
-import { Countdown } from "./Countdown";
 import { HeroScene } from "./HeroScene";
-import { SectionMarker } from "./SectionMarker";
 import styles from "./HeroSection.module.css";
 
 /** Every scene number comes from lib/touchScene.ts (CSS only reads these vars). */
@@ -35,14 +33,14 @@ const wordmarkVars = {
 export function HeroSection() {
   return (
     <HeroScene className={styles.scene} style={sceneVars}>
+      {/* Skip-intro target. Top edge = the moment the pin releases (wrapper
+          bottom − 100svh; positioned by CSS). First in the DOM so that, after
+          skipping, the next Tab continues with the hero's own links. */}
+      <span id="hero-end" className={styles.end} />
+
       <div className={styles.stage}>
         <div className={styles.handSlot}>
           <div className={styles.anchorFill} data-stage-anchor="hand" aria-hidden="true" />
-        </div>
-
-        <div className={styles.topRow}>
-          <SectionMarker index={1} total={3} />
-          <span className={styles.topRule} aria-hidden="true" />
         </div>
 
         <div className={styles.center}>
@@ -80,13 +78,11 @@ export function HeroSection() {
           </div>
 
           <div className={styles.dateBlock}>
+            {/* Fest dates stay hidden until the organisers announce them. */}
             <p className={styles.date}>
-              <span className={styles.dateMain}>{site.dates.rangeShort}</span>
-              <span className={styles.dateCaption}>
-                {site.dates.year} · {site.institute.toUpperCase()}
-              </span>
+              <span className={styles.dateMain}>DATE REVEAL</span>
+              <span className={styles.dateCaption}>COMING SOON</span>
             </p>
-            <Countdown className={styles.countdown} />
           </div>
 
           <div className={styles.intro} data-hero-intro="">
@@ -97,9 +93,6 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-
-      {/* top edge = the moment the pin releases (wrapper bottom − 100svh) */}
-      <span id="hero-end" className={styles.end} />
     </HeroScene>
   );
 }

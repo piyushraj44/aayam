@@ -11,7 +11,6 @@ export default function NotFound() {
   return (
     <StatusScreen
       eyebrow="Page not found"
-      marker="Error 404"
       display="404"
       outlined
       description="This page doesn't exist."

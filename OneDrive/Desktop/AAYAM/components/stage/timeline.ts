@@ -26,7 +26,9 @@ export type TouchFrame = {
   handOpacity: number;
   /** Tendril extension 0→1 (1 = touching the fingertip). */
   tendril: number;
-  /** Orb pose: 0 = pre-pour (lower, larger), 1 = settled hero anchor. */
+  /** Orb pose: 0 = contact pose, 1 = pour pose (held above the wordmark). */
+  orbPour: number;
+  /** 0 = pour pose, 1 = settled hero anchor (during Settle). */
   orbSettle: number;
   /** Per-letter fill level 0→1 (Λ A Y A M). */
   fill: number[];
@@ -82,8 +84,10 @@ export function touchFrame(t: number): TouchFrame {
     handDrop,
     handOpacity,
     tendril,
-    // The orb rises early in the pour so the streams have room to fall.
-    orbSettle: smoothstep(P.contactEnd, P.contactEnd + 0.14, t),
+    // The orb rises early in the pour (so the streams have room to fall), is
+    // held above the letters while they fill, then settles onto them.
+    orbPour: smoothstep(P.contactEnd, P.contactEnd + 0.1, t),
+    orbSettle: smoothstep(P.pourEnd - 0.02, 0.97, t),
     fill,
     streamHead,
     streamTail,

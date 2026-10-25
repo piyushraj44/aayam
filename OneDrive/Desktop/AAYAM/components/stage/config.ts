@@ -184,8 +184,10 @@ export const stageConfig = {
     rippleAmplitude: 0.06,
     /** Strength of the white specular bloom at the contact point. */
     bloom: 1.2,
-    /** Pour stream width at the orb (fraction of the settled orb radius). */
-    streamWidth: 0.11,
+    /** Pour stream width at the orb (fraction of the orb radius). */
+    streamWidth: 0.2,
+    /** While pouring, the orb's underside is held this many radii above the wordmark's top edge. */
+    pourClearance: 0.6,
     /** Number of pour streams per tier (one per letter at most). */
     streams: { high: 5, mid: 5, low: 3 },
     /** Length of the drip "roots" under the orb while pouring (orb radii). */
@@ -208,7 +210,7 @@ export const stageConfig = {
     topFade: 72,
     headerDim: 0.08,
     /** 1 = fit inside the anchor box; >1 lets the grid grow past the box height to fill its width. */
-    overflow: 1,
+    overflow: 1.35,
     /** Wrist rotation at full reach (degrees). */
     wristRotate: -5,
     /** Finger sway amplitude (cells) and speed. */
@@ -241,9 +243,9 @@ export const stageConfig = {
     bodyBrightness: 1.0,
     reflection: 1.3,
     /** Orange glow through the thin parts and rims. */
-    glow: 0.7,
+    glow: 1.05,
     /** Thin-film hue shift on the rims (0 = none). */
-    iridescence: 0.35,
+    iridescence: 0.5,
     /** Speed of the slowly rotating studio (flowing highlights), rad/s. */
     flowSpeed: 0.08,
     /** Cursor parallax tilt (degrees). */

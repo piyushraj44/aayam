@@ -412,11 +412,24 @@ export function createStage(host: HTMLElement, callbacks: StageCallbacks): Stage
         Math.min(heroRect.cy + heroRect.side * tc.orbStartDrop, wordmarkRect?.cy ?? Infinity, height * tc.orbStartMaxY),
       );
       preOrb.r = (heroRect.side / 2) * (width <= TOUCH_MOBILE_MAX ? tc.orbStartScaleMobile : tc.orbStartScale);
-      const k = smootherstep(frameT.orbSettle);
+      // Pour pose: underside held pourClearance radii above the wordmark's top
+      // edge (shrinking the orb if needed) so the streams are always visible,
+      // without rising into the header band.
+      let pourCy = heroRect.cy;
+      let pourR = heroRect.side / 2;
+      if (wordmarkRect) {
+        const minTop = 76;
+        const roomR = (wordmarkRect.top - minTop) / (2 + tc.pourClearance);
+        pourR = Math.max(heroRect.side * 0.25, Math.min(pourR, roomR));
+        pourCy = Math.min(heroRect.cy, wordmarkRect.top - pourR * (1 + tc.pourClearance));
+        pourCy = Math.max(pourCy, minTop + pourR);
+      }
+      const kp = smootherstep(frameT.orbPour);
+      const ks = smootherstep(frameT.orbSettle);
       touchHero = {
         cx: heroRect.cx,
-        cy: lerp(preOrb.cy, heroRect.cy, k),
-        side: lerp(preOrb.r * 2, heroRect.side, k),
+        cy: lerp(lerp(preOrb.cy, pourCy, kp), heroRect.cy, ks),
+        side: lerp(lerp(preOrb.r * 2, pourR * 2, kp), heroRect.side, ks),
       };
     }
     const a = touchHero ?? coreRect;
@@ -784,16 +797,17 @@ export function createStage(host: HTMLElement, callbacks: StageCallbacks): Stage
         st.head = 0;
         st.tail = 0;
         if (still || !place.visible || morph > 0.05 || !letterScreen(li, letterPos)) continue;
-        // Root direction on the underside of the orb, leaning toward the letter.
-        const sx = Math.max(-0.62, Math.min(0.62, (letterPos.x - place.cx) / (R * 2.4)));
+        // Root on the underside of the orb, leaning toward the letter.
+        const sx = Math.max(-0.55, Math.min(0.55, (letterPos.x - place.cx) / (R * 2.4)));
         pourDirs[j].set(sx, -Math.sqrt(Math.max(0.05, 1 - sx * sx - 0.09)), 0.3).normalize();
         const rootLen = f.pourRoots * tc.pourStrandLength;
         const fill = f.fill[li];
+        // The stream leaves the drip root's neck straight down and falls under
+        // gravity into the letter's fill front (cubic in pour.ts).
         st.x0 = place.cx + R * pourDirs[j].x;
-        st.y0 = place.cy - R * (pourDirs[j].y - rootLen * 0.82);
+        st.y0 = place.cy - R * (pourDirs[j].y - rootLen * 0.75);
         st.x1 = letterPos.x;
-        // Never pour upward (when the orb still overlaps a letter the stream hides behind it).
-        st.y1 = Math.max(st.y0 + 4, lerp(letterPos.bottom, letterPos.top, fill));
+        st.y1 = Math.max(st.y0 + R * 0.3, lerp(letterPos.bottom, letterPos.top, fill));
         st.width = tc.streamWidth * R * (1 - 0.5 * f.settle);
         st.head = f.streamHead[li];
         st.tail = Math.max(f.streamTail[li], 1 - smoothstep(0, 0.25, f.pourRoots));

@@ -7,10 +7,6 @@ import styles from "./StatusScreen.module.css";
 type StatusScreenProps = {
   /** Small eyebrow that names the page; part of the h1's accessible text. */
   eyebrow: string;
-  /** Optional mono index shown before the eyebrow (decorative), e.g. "02". */
-  index?: string;
-  /** Frame corner marker, e.g. "02 / 07". Decorative. */
-  marker?: string;
   /** The big chrome display line, e.g. "Coming soon" or "404". */
   display: string;
   /** Render the display line as outlined numerals (404). */
@@ -25,8 +21,6 @@ type StatusScreenProps = {
  */
 export function StatusScreen({
   eyebrow,
-  index,
-  marker,
   display,
   outlined = false,
   description,
@@ -39,10 +33,7 @@ export function StatusScreen({
           <span className={`${styles.corner} ${styles.tr}`} />
           <span className={`${styles.corner} ${styles.bl}`} />
           <span className={`${styles.corner} ${styles.br}`} />
-          {marker ? <span className={styles.marker}>{marker}</span> : null}
-          <span className={styles.dates}>
-            {site.dates.dayStart}–{site.dates.dayEnd} {site.dates.month} {site.dates.year}
-          </span>
+          <span className={styles.dates}>{site.dateStatus}</span>
         </div>
 
         <div className={styles.content}>
@@ -54,7 +45,6 @@ export function StatusScreen({
 
           <h1 id="status-title" className={styles.title}>
             <span className={styles.eyebrow}>
-              {index ? <span aria-hidden="true">{index} — </span> : null}
               {eyebrow}
             </span>
             <span className="visually-hidden"> — </span>

@@ -52,10 +52,6 @@ const rowReduced: Variants = {
   open: { opacity: 1 },
 };
 
-function pad(n: number) {
-  return String(n).padStart(2, "0");
-}
-
 function isPlainLeftClick(event: MouseEvent<HTMLAnchorElement>) {
   return (
     event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
@@ -202,7 +198,7 @@ export function NavigationOverlay({
 
           <nav className={styles.nav} aria-label="Primary">
             <ul className={styles.list}>
-              {navItems.map((item, index) => {
+              {navItems.map((item) => {
                 const current = item.href === pathname;
                 return (
                   <motion.li key={item.href} className={styles.row} variants={row}>
@@ -212,9 +208,6 @@ export function NavigationOverlay({
                       aria-current={current ? "page" : undefined}
                       onClick={(event) => onLinkClick(event, item.href)}
                     >
-                      <span className={styles.index} aria-hidden="true">
-                        {pad(index + 1)}
-                      </span>
                       <span className={styles.label}>{item.label}</span>
                       <span className={styles.meta}>
                         {current ? (
@@ -248,9 +241,7 @@ export function NavigationOverlay({
           </nav>
 
           <motion.p className={styles.footer} variants={row}>
-            <span>
-              {site.dates.dayStart}–{site.dates.dayEnd} {site.dates.month} {site.dates.year}
-            </span>
+            <span>{site.dateStatus}</span>
             <span aria-hidden="true" className={styles.dot}>
               ·
             </span>
