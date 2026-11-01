@@ -53,21 +53,21 @@ export type NavItem = {
   ready: boolean;
   /** Optional highlighted badge, e.g. "Early bird" */
   badge?: string;
+  /** Gently zooms in and out in the top bar and menu to draw attention */
+  pulse?: boolean;
 };
 
-/** Exactly the seven approved top-level destinations, in order. */
+/** The top-level destinations, in order. */
 export const navItems: readonly NavItem[] = [
   { label: "Home", href: "/", ready: true },
-  { label: "Events", href: "/events", ready: false },
+  { label: "Events", href: "/events", ready: false, pulse: true },
   { label: "Guests", href: "/guests", ready: false },
   { label: "Timeline", href: "/timeline", ready: false },
   { label: "Sponsors", href: "/sponsors", ready: false },
-  { label: "Merch", href: "/merch", ready: true, badge: "Early bird" },
-  { label: "Our Team", href: "/team", ready: false },
 ] as const;
 
-/** Destinations shown directly in the top bar on desktop (Merch also on phones). */
-export const headerLinks: readonly string[] = ["/events", "/timeline", "/guests", "/merch"];
+/** Destinations shown in the top bar on desktop; pulsing/badged ones also show on phones. */
+export const headerLinks: readonly string[] = ["/events", "/timeline", "/guests"];
 
 export type Contact = {
   name: string;
@@ -87,16 +87,16 @@ export const contacts: readonly Contact[] = [
     email: "shanittiwari11@gmail.com",
   },
   {
-    name: "Om Mishra",
-    role: "AGS Technical",
-    phone: "+91 88404 07983",
-    email: "mishranit76@gmail.com",
-  },
-  {
     name: "Satakshi Gupta",
     role: "AGS Technical",
     phone: "+91 63938 67824",
     email: "satakshig04@gmail.com",
+  },
+  {
+    name: "Om Mishra",
+    role: "AGS Technical",
+    phone: "+91 88404 07983",
+    email: "mishranit76@gmail.com",
   },
 ];
 
@@ -144,32 +144,3 @@ export const gallery: readonly GalleryPhoto[] = [
   { src: "/images/gallery/25.webp", alt: "Guests at the inaugural ceremony on stage" },
 ];
 
-export type MerchItem = {
-  name: string;
-  /** Price in Indian rupees */
-  price: number;
-  image: string;
-  alt: string;
-};
-
-/** Official AAYAM merchandise (images in public/images/merch/). */
-export const merch: readonly MerchItem[] = [
-  {
-    name: "Hoodie",
-    price: 649,
-    image: "/images/merch/hoodie.webp",
-    alt: "Black AAYAM hoodie: small logo on the front, 'Ghost in the Machine' print on the back",
-  },
-  {
-    name: "Oversized Tee",
-    price: 549,
-    image: "/images/merch/oversized-tee.webp",
-    alt: "Black oversized AAYAM T-shirt: circuit print on the front, 'Hustler' collage print on the back",
-  },
-  {
-    name: "Polo",
-    price: 499,
-    image: "/images/merch/polo.webp",
-    alt: "Black AAYAM polo: circuit print on the front, green 'Dystopian' collage print on the back",
-  },
-];

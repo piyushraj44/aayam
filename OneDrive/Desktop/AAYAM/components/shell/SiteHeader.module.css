@@ -231,3 +231,25 @@
     animation: none;
   }
 }
+
+/* Highlighted destination (Events): a steady, gentle zoom in and out */
+.pulse {
+  animation: link-pulse 1.8s var(--ease-in-out) infinite;
+}
+
+@keyframes link-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}

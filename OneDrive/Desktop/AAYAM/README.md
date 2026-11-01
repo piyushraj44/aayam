@@ -5,9 +5,8 @@ The official website for **AAYAM**, the annual technical fest of NIT Agartala. F
 The first release is the identity and shell of the site:
 
 - A three-part **Home** page (`/`): the molten AAYAM wordmark, a cursor-responsive liquid-chrome object rendered with WebGL that morphs into a chromatic "burst" as you scroll, the Spotlight "COMING · DATE REVEAL · SOON" poster, and a site footer with quick links and social icons.
-- A full-screen **navigation overlay** with exactly seven destinations: Home, Events, Guests, Timeline, Sponsors, Merch, Our Team.
-- A simple **Merch** page (`/merch`): hoodie ₹649, oversized tee ₹549, polo ₹499 (data in `content/site.ts` → `merch`, photos in `public/images/merch/`).
-- A shared **Coming Soon** state on `/events`, `/guests`, `/timeline`, `/sponsors` and `/team`, plus a matching 404 page.
+- A top bar with Events, Timeline and Guests, plus a full-screen **navigation overlay** with five destinations (Home, Events, Guests, Timeline, Sponsors) and a side panel of photos, social links and the business email.
+- A shared **Coming Soon** state on `/events`, `/guests`, `/timeline` and `/sponsors`, plus a matching 404 page.
 - Basic SEO plumbing: per-route metadata, `robots.txt`, `sitemap.xml` and a generated Open Graph image.
 
 There is no backend, database, form or tracking. No events, guests, sponsors, team members, venues, prices or registration links are published yet — add them only once the organisers confirm them (see [Adding content to a Coming Soon page](#adding-content-to-a-coming-soon-page-later)).
@@ -53,7 +52,7 @@ The site is a standard Next.js app — every route is statically generated, so i
 
 Set **`NEXT_PUBLIC_SITE_URL`** to the final public origin (e.g. `https://aayam.example.org`, no trailing slash) **at build time**. It is used for canonical URLs, Open Graph URLs, `robots.txt` and `sitemap.xml`. On Vercel, if it is not set, `https://$VERCEL_PROJECT_PRODUCTION_URL` (the project's production domain) is used; anywhere else they fall back to `http://localhost:3000`.
 
-Direct loads and refreshes of every route (`/events`, `/team`, …) work out of the box because each route is a real page; unknown URLs render the 404 page.
+Direct loads and refreshes of every route (`/events`, `/sponsors`, …) work out of the box because each route is a real page; unknown URLs render the 404 page.
 
 ## Project structure
 
@@ -63,7 +62,6 @@ app/
   globals.css             Design tokens (colours, type scale, spacing, motion, z-index) + base styles
   page.tsx                Home (hero → core → footer)
   events/ guests/ timeline/ sponsors/ team/   Coming Soon routes
-  merch/                  Merch page
     page.tsx              Each renders <ComingSoon sectionName="…"/> and exports its metadata
   not-found.tsx           404 page
   _lib/sectionMetadata.ts Shared per-route metadata (title, description, canonical, Open Graph / Twitter titles)
@@ -81,7 +79,7 @@ components/
   stage/                  The WebGL chrome object (ChromeStage, scene, shaders, config.ts)
 
 content/
-  site.ts                 All approved copy, the navigation items, merch and social links
+  site.ts                 All approved copy, navigation, gallery, contacts and social links
 
 public/images/
   brand/                  Wordmark exports (aayam-wordmark@2x.webp/.png, aayam-wordmark.webp)
@@ -188,14 +186,15 @@ A designer GLB drops in with no code changes if it matches this contract:
 - **Compression:** `npx gltfpack -i in.glb -o public/models/aayam-wordmark.glb -cc -ce ext -kn -kv -vpf -vtf -vn 10`. Add `-si <ratio>` to hit the triangle budget, and repeat with a smaller ratio for the mobile file. `-kv` keeps both UV sets, and `-vpf -vtf` keep the named nodes as plain meshes with float UVs.
 - **Check:** run `node scripts/verify-glb.mjs` on both files and make sure there are no FAIL lines.
 
-### Changing copy, dates, merch and social links
+### Changing copy, dates, contacts and social links
 
 All fest copy lives in **`content/site.ts`**:
 
 - `site.description`, `site.shortDescription` — used on Home and in metadata.
 - `site.dateStatus` — "Date reveal soon". The fest dates are deliberately **not** on the site; this status is shown wherever a date used to be (hero, Spotlight poster, menu, Coming Soon pages, OG image). When the dates are announced, add them here and update those places. `site.year` is only the edition year used in titles and the copyright line.
 - `socials` — Instagram, LinkedIn, X and YouTube links. Each is empty until the official URL is pasted in; the footer only shows icons for links that are filled in, so nothing dead is ever rendered.
-- `merch` — name, price (₹) and image for each Merch item.
+- `contacts`, `businessEmail`, `credit` — the footer's "For general queries" people, business & sponsorship email and credit line.
+- `gallery` — the 24 Home gallery photos (files in `public/images/gallery/`); order decides which land in the large tiles.
 - `site.url` — comes from `NEXT_PUBLIC_SITE_URL` (then Vercel's `VERCEL_PROJECT_PRODUCTION_URL`, then `http://localhost:3000`).
 - `navItems` — the seven menu destinations (label, route, `ready` flag).
 

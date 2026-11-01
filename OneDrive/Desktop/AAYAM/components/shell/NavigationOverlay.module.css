@@ -1,5 +1,6 @@
 .overlay {
-  --nav-fs: min(clamp(2.6rem, 1.3rem + 6.4vw, 7rem), 8.6svh);
+  /* five destinations: rows are large so the menu feels full, not sparse */
+  --nav-fs: min(clamp(3rem, 1.4rem + 7.6vw, 8.5rem), 11svh);
 
   position: fixed;
   inset: 0;
@@ -18,13 +19,12 @@
   outline: none;
 }
 
-/* Faint technical grid: one hairline at the right third */
+/* Faint backdrop texture (the column hairline now belongs to the side panel) */
 .grid {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(var(--line), var(--line)) 72% 0 / 1px 100% no-repeat;
-  opacity: 0.7;
+  background: repeating-linear-gradient(0deg, rgba(174, 181, 190, 0.025) 0 1px, transparent 1px 4px);
 }
 
 /* ---------- Top bar ---------- */
@@ -71,9 +71,18 @@
 
 /* ---------- Rows ---------- */
 
-.nav {
+/* rows + side panel */
+.body {
   position: relative;
   flex: 1 0 auto;
+  display: grid;
+  align-content: center;
+  gap: 28px;
+  padding-bottom: 8px;
+}
+
+.nav {
+  position: relative;
   display: flex;
   align-items: center;
   padding: clamp(4px, 1.4svh, 32px) 0;
@@ -316,5 +325,130 @@
   .close:hover svg,
   .close:focus-visible svg {
     transform: none;
+  }
+}
+
+/* ---------- Side panel: photos, socials, business email ---------- */
+
+.aside {
+  display: grid;
+  gap: 22px;
+  align-content: start;
+}
+
+.photos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--obsidian);
+}
+
+.photoImg {
+  object-fit: cover;
+  filter: grayscale(0.35) contrast(1.05);
+  transition: filter var(--dur-med) var(--ease-out), transform 1.2s var(--ease-out);
+}
+
+.photo:hover .photoImg {
+  filter: none;
+  transform: scale(1.05);
+}
+
+.asideBlock {
+  display: grid;
+  gap: 6px;
+}
+
+.asideHeading {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--steel-grey);
+}
+
+.asideLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asideLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--chrome-white);
+  overflow-wrap: anywhere;
+}
+
+.asideLink:hover,
+.asideLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Desktop: rows on the left, the panel in its own column behind a hairline */
+@media (min-width: 1024px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 28%);
+    align-items: center;
+    gap: clamp(32px, 4vw, 64px);
+  }
+
+  .aside {
+    align-self: stretch;
+    align-content: center;
+    padding-left: clamp(24px, 3vw, 48px);
+    border-left: 1px solid var(--line);
+  }
+
+  .photos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .photo:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo:hover .photoImg {
+    transform: none;
+  }
+}
+
+/* Highlighted destination (Events): a steady, gentle zoom in and out */
+.pulse {
+  display: inline-block;
+  transform-origin: left center;
+  animation: label-pulse 1.8s var(--ease-in-out) infinite;
+}
+
+@keyframes label-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
   }
 }

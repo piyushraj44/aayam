@@ -2,12 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import type { MouseEvent, KeyboardEvent, RefObject } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Variants } from "motion/react";
 import { Wordmark } from "@/components/brand/Wordmark";
-import { navItems, site } from "@/content/site";
+import { businessEmail, gallery, navItems, site, socials } from "@/content/site";
 import styles from "./NavigationOverlay.module.css";
 
 type NavigationOverlayProps = {
@@ -22,6 +23,12 @@ type NavigationOverlayProps = {
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 const EASE_IN_OUT = [0.65, 0, 0.35, 1] as const;
+
+/** Three photos from past editions shown beside the menu (gallery indices). */
+const ASIDE_PHOTOS = [0, 5, 13]
+  .map((i) => gallery[i])
+  .filter((photo): photo is (typeof gallery)[number] => photo !== undefined);
+const LIVE_SOCIALS = socials.filter((social) => social.href);
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -196,55 +203,100 @@ export function NavigationOverlay({
             </button>
           </div>
 
-          <nav className={styles.nav} aria-label="Primary">
-            <ul className={styles.list}>
-              {navItems.map((item) => {
-                const current = item.href === pathname;
-                return (
-                  <motion.li key={item.href} className={styles.row} variants={row}>
-                    <Link
-                      href={item.href}
-                      className={styles.link}
-                      aria-current={current ? "page" : undefined}
-                      onClick={(event) => onLinkClick(event, item.href)}
-                    >
-                      <span className={styles.label}>{item.label}</span>
-                      <span className={styles.meta}>
-                        {current ? (
-                          <span className={styles.current} aria-hidden="true">
-                            Current
-                          </span>
-                        ) : null}
-                        {item.badge ? (
-                          <span className={styles.badge}>
-                            <span className="visually-hidden">, </span>
-                            {item.badge}
-                          </span>
-                        ) : null}
-                        {!item.ready ? (
-                          <span className={styles.tag}>
-                            <span className="visually-hidden">, </span>
-                            Coming soon
-                          </span>
-                        ) : null}
-                      </span>
-                      <svg
-                        className={styles.arrow}
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        aria-hidden="true"
-                        focusable="false"
+          <div className={styles.body}>
+            <nav className={styles.nav} aria-label="Primary">
+              <ul className={styles.list}>
+                {navItems.map((item) => {
+                  const current = item.href === pathname;
+                  return (
+                    <motion.li key={item.href} className={styles.row} variants={row}>
+                      <Link
+                        href={item.href}
+                        className={styles.link}
+                        aria-current={current ? "page" : undefined}
+                        onClick={(event) => onLinkClick(event, item.href)}
                       >
-                        <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.25" />
-                      </svg>
-                      <span className={styles.sweep} aria-hidden="true" />
-                    </Link>
-                  </motion.li>
-                );
-              })}
-            </ul>
-          </nav>
+                        <span className={item.pulse ? `${styles.label} ${styles.pulse}` : styles.label}>
+                          {item.label}
+                        </span>
+                        <span className={styles.meta}>
+                          {current ? (
+                            <span className={styles.current} aria-hidden="true">
+                              Current
+                            </span>
+                          ) : null}
+                          {item.badge ? (
+                            <span className={styles.badge}>
+                              <span className="visually-hidden">, </span>
+                              {item.badge}
+                            </span>
+                          ) : null}
+                          {!item.ready ? (
+                            <span className={styles.tag}>
+                              <span className="visually-hidden">, </span>
+                              Coming soon
+                            </span>
+                          ) : null}
+                        </span>
+                        <svg
+                          className={styles.arrow}
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.25" />
+                        </svg>
+                        <span className={styles.sweep} aria-hidden="true" />
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <motion.aside className={styles.aside} variants={row} aria-label="More from AAYAM">
+              {ASIDE_PHOTOS.length > 0 ? (
+                <div className={styles.photos}>
+                  {ASIDE_PHOTOS.map((photo) => (
+                    <div key={photo.src} className={styles.photo}>
+                      <Image src={photo.src} alt="" fill sizes="(max-width: 1023px) 30vw, 22vw" className={styles.photoImg} />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {LIVE_SOCIALS.length > 0 ? (
+                <div className={styles.asideBlock}>
+                  <p className={styles.asideHeading}>Follow</p>
+                  <ul className={styles.asideLinks}>
+                    {LIVE_SOCIALS.map((social) => (
+                      <li key={social.label}>
+                        <a
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.asideLink}
+                        >
+                          {social.label}
+                          <span aria-hidden="true"> ↗</span>
+                          <span className="visually-hidden"> (opens in a new tab)</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              <div className={styles.asideBlock}>
+                <p className={styles.asideHeading}>Business &amp; sponsorship</p>
+                <a href={`mailto:${businessEmail}`} className={styles.asideLink}>
+                  {businessEmail}
+                </a>
+              </div>
+            </motion.aside>
+          </div>
 
           <motion.p className={styles.footer} variants={row}>
             <span>{site.dateStatus}</span>

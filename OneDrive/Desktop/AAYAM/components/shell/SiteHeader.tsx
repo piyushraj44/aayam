@@ -59,10 +59,10 @@ export function SiteHeader() {
         <nav className={styles.bar} aria-label="Highlights">
           <ul className={styles.barList}>
             {barLinks.map((item) => (
-              <li key={item.href} className={item.badge ? styles.barBadged : styles.barItem}>
+              <li key={item.href} className={item.badge || item.pulse ? styles.barBadged : styles.barItem}>
                 <Link
                   href={item.href}
-                  className={styles.barLink}
+                  className={item.pulse ? `${styles.barLink} ${styles.pulse}` : styles.barLink}
                   aria-current={item.href === pathname ? "page" : undefined}
                 >
                   {item.label}
