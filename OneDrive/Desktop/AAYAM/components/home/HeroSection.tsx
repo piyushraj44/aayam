@@ -86,7 +86,6 @@ export function HeroSection() {
           </div>
 
           <div className={styles.intro} data-hero-intro="">
-            <p className={styles.description}>{site.description}</p>
             <ChromeLink href="/events" arrow>
               Explore events
             </ChromeLink>

@@ -16,7 +16,7 @@
 
   position: relative;
   height: var(--pin-mobile);
-  /* phones: description + CTA sit just below the pinned stage; reserve them */
+  /* phones: the Explore events CTA sits just below the pinned stage; reserve them */
   margin-bottom: calc(var(--hero-intro-h, 240px) + 24px);
 }
 
@@ -270,7 +270,7 @@
   }
 }
 
-/* description + CTA: always in the DOM, revealed through Settle */
+/* CTA: always in the DOM, revealed through Settle */
 .intro {
   position: absolute;
   top: calc(100% + 32px);
@@ -286,13 +286,6 @@
 .intro:focus-within {
   opacity: 1;
   transform: none;
-}
-
-.description {
-  max-width: 48ch;
-  color: var(--liquid-silver);
-  font-size: var(--fs-body);
-  line-height: 1.6;
 }
 
 /* ---- tablet & desktop (≥ TOUCH_MOBILE_MAX + 1) ----------------------------- */
@@ -366,11 +359,6 @@
     gap: 16px;
   }
 
-  .description {
-    font-size: var(--fs-small);
-    line-height: 1.65;
-  }
-
   .dateBlock {
     grid-area: date;
     display: grid;
@@ -431,13 +419,6 @@
   }
 }
 
-@media (min-width: 1280px) {
-  .description {
-    max-width: 58ch;
-    font-size: var(--fs-body);
-    line-height: 1.55;
-  }
-}
 
 /* ---- no pin: reduced motion, static-gl, fallback --------------------------- */
 
