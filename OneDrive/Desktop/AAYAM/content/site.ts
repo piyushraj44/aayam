@@ -21,12 +21,9 @@ export const site = {
       : "http://localhost:3000"),
   description:
     "AAYAM, NIT Agartala's annual technical fest, celebrates the stories, memories, and innovation that bring us together. Over three vibrant days, it showcases the best of student life through thrilling competitions, dynamic performances, and high-energy workshops.",
-  shortDescription: "The annual technical fest of NIT Agartala. Date reveal soon.",
-  /**
-   * Fest dates are hidden until the organisers announce them. Every place that
-   * used to show a date shows this status instead.
-   */
-  dateStatus: "Date reveal soon",
+  shortDescription: "The annual technical fest of NIT Agartala, 13th–15th Nov.",
+  /** Confirmed fest date range, reused wherever the date is displayed. */
+  dateStatus: "13th–15th Nov",
 } as const;
 
 export type SocialLink = {

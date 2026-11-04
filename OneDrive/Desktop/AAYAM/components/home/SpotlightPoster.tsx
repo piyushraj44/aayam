@@ -13,8 +13,7 @@ const REST = { x: 50, y: 18 };
 const NUM_W = 300;
 
 /**
- * "COMING · DATE REVEAL · SOON" — the Spotlight poster after date-poster-reference.png.
- * The fest dates stay hidden until announced, so the box reads DATE / REVEAL.
+ * The Spotlight date poster after date-poster-reference.png.
  * One soft cone sweeps onto the card when it first enters view (500 ms). Then:
  * fine pointer → the light follows the cursor (damped); touch → slow ambient
  * drift; reduced motion → static lit state. The rAF loop runs only while the
@@ -127,7 +126,7 @@ export function SpotlightPoster({ className }: { className?: string }) {
 
       <span className={styles.content}>
         <span className={styles.rule} />
-        <span className={styles.wide}>Coming</span>
+        <span className={styles.wide}>AAYAM</span>
 
         <span className={styles.box}>
           <svg className={styles.numerals} viewBox={`0 0 ${NUM_W} 170`} focusable="false">
@@ -155,14 +154,14 @@ export function SpotlightPoster({ className }: { className?: string }) {
               lengthAdjust="spacingAndGlyphs"
               stroke={`url(#${gradientId})`}
             >
-              DATE
+              13TH–15TH
             </text>
           </svg>
-          <span className={styles.month}>REVEAL</span>
+          <span className={styles.month}>NOV</span>
         </span>
 
         <span className={styles.small}>{site.institute}</span>
-        <span className={styles.wide}>Soon</span>
+        <span className={styles.wide}>2026</span>
 
         <span className={styles.stripes}>
           {Array.from({ length: STRIPES }, (_, i) => (

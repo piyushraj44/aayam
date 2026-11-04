@@ -1,10 +1,10 @@
 # AAYAM — website
 
-The official website for **AAYAM**, the annual technical fest of NIT Agartala. Fest dates are hidden until they are announced ("Date reveal soon").
+The official website for **AAYAM**, the annual technical fest of NIT Agartala. AAYAM 2026 takes place 13th–15th November.
 
 The first release is the identity and shell of the site:
 
-- A three-part **Home** page (`/`): the molten AAYAM wordmark, a cursor-responsive liquid-chrome object rendered with WebGL that morphs into a chromatic "burst" as you scroll, the Spotlight "COMING · DATE REVEAL · SOON" poster, and a site footer with quick links and social icons.
+- A three-part **Home** page (`/`): the molten AAYAM wordmark, a cursor-responsive liquid-chrome object rendered with WebGL that morphs into a chromatic "burst" as you scroll, the Spotlight date poster, and a site footer with quick links and social icons.
 - A top bar with Events, Timeline and Guests, plus a full-screen **navigation overlay** with five destinations (Home, Events, Guests, Timeline, Sponsors) and a side panel of photos, social links and the business email.
 - A shared **Coming Soon** state on `/events`, `/guests`, `/timeline` and `/sponsors`, plus a matching 404 page.
 - Basic SEO plumbing: per-route metadata, `robots.txt`, `sitemap.xml` and a generated Open Graph image.
@@ -191,7 +191,7 @@ A designer GLB drops in with no code changes if it matches this contract:
 All fest copy lives in **`content/site.ts`**:
 
 - `site.description`, `site.shortDescription` — used on Home and in metadata.
-- `site.dateStatus` — "Date reveal soon". The fest dates are deliberately **not** on the site; this status is shown wherever a date used to be (hero, Spotlight poster, menu, Coming Soon pages, OG image). When the dates are announced, add them here and update those places. `site.year` is only the edition year used in titles and the copyright line.
+- `site.dateStatus` — the confirmed date range, shown in the hero, menu, Coming Soon pages and OG image. Keep this value aligned with the Spotlight poster. `site.year` is the edition year used in titles and the copyright line.
 - `socials` — Instagram, LinkedIn, X and YouTube links. Each is empty until the official URL is pasted in; the footer only shows icons for links that are filled in, so nothing dead is ever rendered.
 - `contacts`, `businessEmail`, `credit` — the footer's "For general queries" people, business & sponsorship email and credit line.
 - `gallery` — the 24 Home gallery photos (files in `public/images/gallery/`); order decides which land in the large tiles.

@@ -188,7 +188,14 @@ export function NavigationOverlay({
           <div className={styles.grid} aria-hidden="true" />
 
           <div className={styles.topBar}>
-            <Wordmark variant="chrome" alt="" sizes="120px" className={styles.mark} />
+            <Link
+              href="/"
+              className={styles.markLink}
+              aria-label={`${site.name} home`}
+              onClick={(event) => onLinkClick(event, "/")}
+            >
+              <Wordmark variant="chrome" alt="" sizes="120px" className={styles.mark} />
+            </Link>
             <button
               ref={closeRef}
               type="button"

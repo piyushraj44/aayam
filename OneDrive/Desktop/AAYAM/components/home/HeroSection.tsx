@@ -78,10 +78,9 @@ export function HeroSection() {
           </div>
 
           <div className={styles.dateBlock}>
-            {/* Fest dates stay hidden until the organisers announce them. */}
             <p className={styles.date}>
-              <span className={styles.dateMain}>DATE REVEAL</span>
-              <span className={styles.dateCaption}>COMING SOON</span>
+              <span className={styles.dateMain}>13th–15th</span>
+              <span className={styles.dateCaption}>NOV</span>
             </p>
           </div>
 

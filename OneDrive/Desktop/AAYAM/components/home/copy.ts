@@ -13,4 +13,4 @@ export const homeCopy = {
 } as const;
 
 /** Accessible name of the Spotlight poster. */
-export const posterLabel = `Coming soon: ${site.name} ${site.institute}. ${site.dateStatus}.`;
+export const posterLabel = `${site.name}, ${site.institute}. Festival dates: ${site.dateStatus}.`;
